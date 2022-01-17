@@ -3,7 +3,7 @@
 namespace App\Plugins\Other\ProductFlashSale\Controllers;
 
 use App\Plugins\Other\ProductFlashSale\AppConfig;
-use App\Http\Controllers\RootFrontController;
+use SCart\Core\Front\Controllers\RootFrontController;
 class FrontController extends RootFrontController
 {
     public $plugin;

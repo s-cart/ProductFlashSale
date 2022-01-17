@@ -3,7 +3,7 @@
 
 namespace App\Plugins\Other\ProductFlashSale\Admin;
 
-use App\Http\Controllers\RootAdminController;
+use SCart\Core\Admin\Controllers\RootAdminController;
 use App\Plugins\Other\ProductFlashSale\AppConfig;
 use App\Plugins\Other\ProductFlashSale\Models\PluginModel;
 use SCart\Core\Front\Models\ShopProductPromotion;
