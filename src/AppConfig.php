@@ -6,6 +6,8 @@ use App\Plugins\Other\ProductFlashSale\Models\PluginModel;
 use SCart\Core\Admin\Models\AdminConfig;
 use SCart\Core\Admin\Models\AdminMenu;
 use App\Plugins\ConfigDefault;
+use Illuminate\Support\Facades\File;
+
 class AppConfig extends ConfigDefault
 {
     public function __construct()
@@ -68,6 +70,7 @@ class AppConfig extends ConfigDefault
             if (!$process) {
                 $return = ['error' => 1, 'msg' => sc_language_render('admin.plugin.install_faild')];
             } else {
+                File::copyDirectory(app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/Views/block'), base_path('resources/views/templates/'.sc_store('template').'/block'));
                 $return = (new PluginModel)->installExtension();
             }
         }
