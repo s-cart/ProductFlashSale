@@ -7,6 +7,7 @@ use SCart\Core\Admin\Controllers\RootAdminController;
 use App\Plugins\Other\ProductFlashSale\AppConfig;
 use App\Plugins\Other\ProductFlashSale\Models\PluginModel;
 use SCart\Core\Front\Models\ShopProductPromotion;
+use SCart\Core\Front\Models\ShopProduct;
 use Validator;
 class AdminController extends RootAdminController
 {
@@ -34,7 +35,6 @@ class AdminController extends RootAdminController
         ];
 
         $listTh = [
-            'id' => trans($this->plugin->pathPlugin.'::lang.admin.id'),
             'product_id' => trans($this->plugin->pathPlugin.'::lang.admin.product'),
             'stock' => trans($this->plugin->pathPlugin.'::lang.admin.stock'),
             'sold' => trans($this->plugin->pathPlugin.'::lang.admin.sold'),
@@ -49,9 +49,10 @@ class AdminController extends RootAdminController
 
         $dataTr = [];
         foreach ($dataTmp as $key => $row) {
-            $dataTr[] = [
-                'id' => $row['id'],
-                'product_id' => $row['product_id'],
+            $product = ShopProduct::find($row['product_id']);
+            
+            $dataTr[$row['id']] = [
+                'product_id' => '<a target=_new href="'.$product->getUrl().'">'.sc_image_render(sc_file($product['image']), '50px', '50px').'</a>',
                 'stock' => $row['stock'],
                 'sold' => $row['sold'],
                 'sort' => $row['sort'],
@@ -62,7 +63,7 @@ class AdminController extends RootAdminController
                 'action' => '
                     <a href="' . sc_route_admin('admin_productflashsale.edit', ['id' => $row['id']]) . '"><span title="' . trans($this->plugin->pathPlugin.'::lang.admin.edit') . '" type="button" class="btn btn-flat btn-primary"><i class="fa fa-edit"></i></span></a>&nbsp;
     
-                  <span onclick="deleteItem(' . $row['id'] . ');"  title="' . trans($this->plugin->pathPlugin.'::lang.admin.delete') . '" class="btn btn-flat btn-danger"><i class="fas fa-trash-alt"></i></span>
+                  <span onclick="deleteItem(\'' . $row['id'] . '\');"  title="' . trans($this->plugin->pathPlugin.'::lang.admin.delete') . '" class="btn btn-flat btn-danger"><i class="fas fa-trash-alt"></i></span>
                   ',
             ];
         }
@@ -150,7 +151,6 @@ class AdminController extends RootAdminController
         ];
 
         $listTh = [
-            'id' => trans($this->plugin->pathPlugin.'::lang.admin.id'),
             'product_id' => trans($this->plugin->pathPlugin.'::lang.admin.product'),
             'stock' => trans($this->plugin->pathPlugin.'::lang.admin.stock'),
             'sold' => trans($this->plugin->pathPlugin.'::lang.admin.sold'),
@@ -165,8 +165,7 @@ class AdminController extends RootAdminController
 
         $dataTr = [];
         foreach ($dataTmp as $key => $row) {
-            $dataTr[] = [
-                'id' => $row['id'],
+            $dataTr[$row['id']] = [
                 'product_id' => $row['product_id'],
                 'stock' => $row['stock'],
                 'sale' => $row['sale'],
@@ -178,7 +177,7 @@ class AdminController extends RootAdminController
                 'action' => '
                     <a href="' . sc_route_admin('admin_productflashsale.edit', ['id' => $row['id']]) . '"><span title="' . trans($this->plugin->pathPlugin.'::lang.admin.edit') . '" type="button" class="btn btn-flat btn-primary"><i class="fa fa-edit"></i></span></a>&nbsp;
     
-                  <span onclick="deleteItem(' . $row['id'] . ');"  title="' . trans($this->plugin->pathPlugin.'::lang.admin.delete') . '" class="btn btn-flat btn-danger"><i class="fas fa-trash-alt"></i></span>
+                  <span onclick="deleteItem(\'' . $row['id'] . '\');"  title="' . trans($this->plugin->pathPlugin.'::lang.admin.delete') . '" class="btn btn-flat btn-danger"><i class="fas fa-trash-alt"></i></span>
                   ',
             ];
         }

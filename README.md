@@ -4,7 +4,7 @@ Import plugin : https://s-cart.org/en/docs/master/how-to-install-module-extensio
 
 Step2:
 
-Copy file template/block/flash_sale.blade.php to folder resources/views/your-teamplate/block/flash_sale.blade.php
+Copy file views/block/flash_sale.blade.php to folder resources/views/your-teamplate/block/flash_sale.blade.php
 
 Step3:
 
