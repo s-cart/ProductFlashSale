@@ -11,6 +11,8 @@ use SCart\Core\Front\Models\ShopProductPromotion;
 
 class PluginModel extends Model
 {
+    use \SCart\Core\Front\Models\UuidTrait;
+    
     public $timestamps    = false;
     public $table = SC_DB_PREFIX.'shop_product_flash';
     protected $connection = SC_CONNECTION;
@@ -34,8 +36,8 @@ class PluginModel extends Model
         $this->uninstallExtension();
 
         Schema::create($this->table, function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('product_id')->unique();
+            $table->uuid('id')->primary();
+            $table->uuid('product_id')->unique();
             $table->integer('stock');
             $table->integer('sold');
             $table->integer('sort');
@@ -123,8 +125,14 @@ class PluginModel extends Model
         static::deleting(function ($item) {
             //Delete promotion
             (new ShopProductPromotion)->where('product_id', $item->product_id)->delete();
-
             }
         );
+
+        //Uuid
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = sc_generate_id($type = 'shop_product_flash');
+            }
+        });
     }
 }
