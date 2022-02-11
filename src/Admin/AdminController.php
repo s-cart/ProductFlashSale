@@ -165,8 +165,9 @@ class AdminController extends RootAdminController
 
         $dataTr = [];
         foreach ($dataTmp as $key => $row) {
+            $product = ShopProduct::find($row['product_id']);
             $dataTr[$row['id']] = [
-                'product_id' => $row['product_id'],
+                'product_id' => '<a target=_new href="'.$product->getUrl().'">'.sc_image_render(sc_file($product['image']), '50px', '50px').'</a>',
                 'stock' => $row['stock'],
                 'sale' => $row['sale'],
                 'sort' => $row['sort'],
