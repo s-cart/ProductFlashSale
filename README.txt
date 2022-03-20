@@ -1,6 +1,7 @@
 ========= History =========
 
 Version 2.x support S-Cart 6.x
+
 Version 3.x support S-Cart 7.x
 
 ========= Install =========
