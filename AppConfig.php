@@ -70,7 +70,9 @@ class AppConfig extends ConfigDefault
             if (!$process) {
                 $return = ['error' => 1, 'msg' => sc_language_render('admin.plugin.install_faild')];
             } else {
-                File::copyDirectory(app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/Views/block'), base_path('resources/views/templates/'.sc_store('template').'/block'));
+                if (!file_exists(base_path('resources/views/templates/'.sc_store('template').'/block/flash_sale.blade.php'))) {
+                    File::copyDirectory(app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/Views/block/flash_sale.blade.php'), base_path('resources/views/templates/'.sc_store('template').'/block/flash_sale.blade.php'));
+                }
                 $return = (new PluginModel)->installExtension();
             }
         }
