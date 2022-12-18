@@ -70,8 +70,21 @@ class AppConfig extends ConfigDefault
             if (!$process) {
                 $return = ['error' => 1, 'msg' => sc_language_render('admin.plugin.install_faild')];
             } else {
-                if (!file_exists(base_path('resources/views/templates/'.sc_store('template').'/block/flash_sale.blade.php'))) {
-                    File::copyDirectory(app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/Views/block/flash_sale.blade.php'), base_path('resources/views/templates/'.sc_store('template').'/block/flash_sale.blade.php'));
+                if (is_writable(base_path('resources/views/templates/'.sc_store('template')))) {
+                    if(!File::isDirectory(base_path('resources/views/templates/'.sc_store('template').'/block'))){
+                        File::makeDirectory(base_path('resources/views/templates/'.sc_store('template').'/block'));
+                    }
+
+                    foreach (glob(app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/template/block/*.blade.php')) as $filename) {
+                        $checkFile = str_replace(
+                            app_path($this->configGroup.'/'.$this->configCode.'/'.$this->configKey.'/template'),
+                            base_path('resources/views/templates/'.sc_store('template')),
+                            $filename
+                        );
+                        if (!file_exists($checkFile)) {
+                            File::copy($filename, $checkFile);
+                        }
+                    }
                 }
                 $return = (new PluginModel)->installExtension();
             }
